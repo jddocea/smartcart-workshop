@@ -53,3 +53,4 @@ Thumbs.db
 # Test and tooling output
 playwright-report/
 test-results/
+blob-report/
