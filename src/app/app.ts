@@ -1,12 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AssistantPanel } from './assistant/assistant-panel';
+import { Header } from './layout/header';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
-  templateUrl: './app.html',
+  imports: [RouterOutlet, Header, AssistantPanel],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <app-header />
+    <main id="main">
+      <router-outlet />
+    </main>
+    <app-assistant-panel />
+  `,
 })
-export class App {
-  protected readonly title = signal('smartcart-workshop');
-}
+export class App {}
