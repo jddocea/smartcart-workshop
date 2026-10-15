@@ -1,5 +1,5 @@
 import { inject, Injectable, InjectionToken, signal } from '@angular/core';
-import { AgentEvent, ChatMessage } from '../../shared/agent-events';
+import { AgentEvent, ChatMessage, MAX_MESSAGE_LENGTH } from '../../shared/agent-events';
 import { Product } from '../../shared/product';
 import { CartStore } from '../cart/cart.store';
 import { SseParser } from './sse-parser';
@@ -36,7 +36,7 @@ export class ChatService {
   readonly provider = this.providerName.asReadonly();
 
   async send(text: string): Promise<void> {
-    const content = text.trim();
+    const content = text.trim().slice(0, MAX_MESSAGE_LENGTH);
     if (!content || this.isStreaming()) return;
 
     const history = this.history();
@@ -111,11 +111,21 @@ export class ChatService {
     }
   }
 
-  /** Completed turns worth sending back to the model as context. */
+  /**
+   * Turns worth sending back to the model as context. A turn whose reply failed is
+   * dropped entirely, so one rejected message can't break every later request.
+   */
   private history(): ChatMessage[] {
-    return this.state()
-      .filter((message) => message.role === 'user' || (message.text && !message.error))
-      .map((message) => ({ role: message.role, content: message.text }));
+    const messages = this.state();
+    return messages
+      .filter((message, index) => {
+        if (message.role === 'user') return !messages[index + 1]?.error;
+        return message.text && !message.error;
+      })
+      .map((message) => ({
+        role: message.role,
+        content: message.text.slice(0, MAX_MESSAGE_LENGTH),
+      }));
   }
 
   private patch(id: number, change: (message: UiMessage) => Partial<UiMessage>): void {

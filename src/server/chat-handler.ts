@@ -1,11 +1,11 @@
-import { AgentEvent, ChatMessage } from '../shared/agent-events';
+import { AgentEvent, ChatMessage, MAX_MESSAGE_LENGTH } from '../shared/agent-events';
 import { SmartCartEnv } from './env';
 import { LlmProvider } from './llm/provider';
 import { createProvider } from './llm/select-provider';
 import { encodeSse } from './sse';
 
 const MAX_MESSAGES = 20;
-const MAX_CONTENT_LENGTH = 2000;
+const MAX_CONTENT_LENGTH = MAX_MESSAGE_LENGTH;
 const UNAVAILABLE_MESSAGE = 'The assistant is unavailable right now. Please try again.';
 
 export async function handleChat(

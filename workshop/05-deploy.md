@@ -71,6 +71,7 @@ A live `*.workers.dev` URL serving SmartCart. Every merged PR redeploys it, and 
 
 - **Build fails with a name mismatch.** Rename the Worker in the dashboard to `smartcart-workshop`, or change `name` in `wrangler.jsonc` to match.
 - **`pnpm: not found` or a lockfile error.** Set `PNPM_VERSION=10.33.4` as a build variable.
+- **Every page returns 400 `Header "host" … is not allowed`.** Angular SSR only renders for hosts listed in `allowedHosts` in `src/server.ts`. `*.workers.dev` (including preview URLs) is already there; add your custom domain if you attach one.
 - **The assistant shows "demo mode" in production.** The `GEMINI_API_KEY` secret is missing from the production environment, or you added it as a build variable.
 - **Manual fallback from your laptop:** `pnpm wrangler login`, then `pnpm run deploy`.
 

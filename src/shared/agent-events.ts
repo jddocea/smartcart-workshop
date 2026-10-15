@@ -7,6 +7,9 @@ export type AgentEvent =
   | { type: 'error'; message: string }
   | { type: 'done' };
 
+/** Longest message content /api/chat accepts. */
+export const MAX_MESSAGE_LENGTH = 2000;
+
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;

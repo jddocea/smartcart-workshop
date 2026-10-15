@@ -12,6 +12,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { CartStore } from '../cart/cart.store';
 import { ChatService } from './chat.service';
+import { MAX_MESSAGE_LENGTH } from '../../shared/agent-events';
 
 @Component({
   selector: 'app-assistant-panel',
@@ -124,6 +125,7 @@ import { ChatService } from './chat.service';
             class="field"
             rows="1"
             placeholder="Ask about products…"
+            [attr.maxlength]="maxLength"
             data-testid="assistant-input"
             [value]="draft()"
             (input)="draft.set(input.value)"
@@ -352,6 +354,7 @@ export class AssistantPanel {
 
   protected readonly open = signal(false);
   protected readonly draft = signal('');
+  protected readonly maxLength = MAX_MESSAGE_LENGTH;
   protected readonly canSend = computed(() => !this.chat.streaming() && !!this.draft().trim());
   /** The assistant reply still waiting for its first token. */
   protected readonly pendingId = computed(() => {

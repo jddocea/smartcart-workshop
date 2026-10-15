@@ -44,4 +44,11 @@ test.describe('shop', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Wireless Headphones');
     await expect(page.getByTestId('add-to-cart')).toBeVisible();
   });
+
+  test('SSR accepts the production workers.dev host', async ({ request }) => {
+    const response = await request.get('/', {
+      headers: { host: 'smartcart-workshop.example.workers.dev' },
+    });
+    expect(response.status()).toBe(200);
+  });
 });

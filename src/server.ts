@@ -3,9 +3,8 @@ import { handleChat } from './server/chat-handler';
 import { SmartCartEnv } from './server/env';
 
 const angularApp = new AngularAppEngine({
-  // It is safe to set allow `localhost`, so that SSR can run in local development,
-  // as, in production, Cloudflare will ensure that `localhost` is not the host.
-  allowedHosts: ['localhost', '127.0.0.1'],
+  // Requests from any other host get a 400. Add your custom domain here if you attach one.
+  allowedHosts: ['localhost', '127.0.0.1', '*.workers.dev'],
 });
 
 async function route(request: Request, env: SmartCartEnv): Promise<Response> {

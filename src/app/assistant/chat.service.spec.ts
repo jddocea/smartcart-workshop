@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AgentEvent } from '../../shared/agent-events';
+import { AgentEvent, MAX_MESSAGE_LENGTH } from '../../shared/agent-events';
 import { findProduct } from '../../shared/products';
 import { encodeSse } from '../../server/sse';
 import { CartStore } from '../cart/cart.store';
@@ -146,7 +146,7 @@ describe('ChatService', () => {
     expect(service.streaming()).toBe(false);
   });
 
-  it('sends prior completed history, skipping errored and empty replies', async () => {
+  it('sends prior history, dropping failed turns and empty replies', async () => {
     const replies: Response[] = [
       sseResponse([{ type: 'text', delta: 'Hi!' }, { type: 'done' }]),
       new Response('boom', { status: 500 }),
@@ -164,7 +164,6 @@ describe('ChatService', () => {
       messages: [
         { role: 'user', content: 'one' },
         { role: 'assistant', content: 'Hi!' },
-        { role: 'user', content: 'two' },
         { role: 'user', content: 'three' },
         { role: 'user', content: 'four' },
       ],
@@ -182,6 +181,23 @@ describe('ChatService', () => {
     expect(messages).toHaveLength(20);
     expect(messages.at(-1)).toEqual({ role: 'user', content: 'message 11' });
     expect(messages[0]).toEqual({ role: 'assistant', content: 'ok' });
+  });
+
+  it('clips every message to the server limit', async () => {
+    const longReply = 'b'.repeat(MAX_MESSAGE_LENGTH + 50);
+    const { service, fetchMock } = setup(async () =>
+      sseResponse([{ type: 'text', delta: longReply }, { type: 'done' }]),
+    );
+
+    await service.send('a'.repeat(MAX_MESSAGE_LENGTH + 1));
+    await service.send('next');
+
+    const { messages } = requestBody(fetchMock, 1) as { messages: { content: string }[] };
+    expect(messages.map((message) => message.content.length)).toEqual([
+      MAX_MESSAGE_LENGTH,
+      MAX_MESSAGE_LENGTH,
+      4,
+    ]);
   });
 
   it('ignores whitespace-only input', async () => {
