@@ -1,0 +1,4 @@
+# Copy to .dev.vars and add your key from https://aistudio.google.com/apikey
+GEMINI_API_KEY=your-key-here
+# Force the deterministic mock assistant even when a key is set:
+# SMARTCART_PROVIDER=mock
