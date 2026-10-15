@@ -42,10 +42,23 @@ smartcart-workshop/
 ```ts
 // src/shared/product.ts
 export type Category = 'audio' | 'kitchen' | 'home' | 'fitness' | 'accessories';
-export interface Product { id: string; name: string; description: string; category: Category; price: number; emoji: string; rating: number; tags: string[]; }
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  category: Category;
+  price: number;
+  emoji: string;
+  rating: number;
+  tags: string[];
+}
 
 // src/shared/product-filter.ts
-export interface ProductFilter { query?: string; category?: Category | 'all'; maxPrice?: number; }
+export interface ProductFilter {
+  query?: string;
+  category?: Category | 'all';
+  maxPrice?: number;
+}
 export function filterProducts(products: readonly Product[], filter: ProductFilter): Product[];
 
 // src/shared/agent-events.ts
@@ -55,23 +68,40 @@ export type AgentEvent =
   | { type: 'action'; action: 'addToCart'; productId: string; quantity: number }
   | { type: 'error'; message: string }
   | { type: 'done' };
-export interface ChatMessage { role: 'user' | 'assistant'; content: string; }
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
 // src/server/env.ts
-export interface SmartCartEnv { GEMINI_API_KEY?: string; GEMINI_MODEL?: string; SMARTCART_PROVIDER?: string; }
+export interface SmartCartEnv {
+  GEMINI_API_KEY?: string;
+  GEMINI_MODEL?: string;
+  SMARTCART_PROVIDER?: string;
+}
 
 // src/server/sse.ts
 export function encodeSse(event: AgentEvent): string; // `data: ${JSON.stringify(event)}\n\n`
 
 // src/server/tools.ts
-export interface ToolResult { response: Record<string, unknown>; events: AgentEvent[]; }
+export interface ToolResult {
+  response: Record<string, unknown>;
+  events: AgentEvent[];
+}
 export function executeTool(name: string, args: Record<string, unknown>): ToolResult;
 
 // src/server/llm/provider.ts
-export interface LlmProvider { readonly name: 'gemini' | 'mock'; run(messages: ChatMessage[]): AsyncIterable<AgentEvent>; }
+export interface LlmProvider {
+  readonly name: 'gemini' | 'mock';
+  run(messages: ChatMessage[]): AsyncIterable<AgentEvent>;
+}
 
 // src/server/chat-handler.ts
-export function handleChat(request: Request, env: SmartCartEnv, createProviderFn?: (env: SmartCartEnv) => LlmProvider): Promise<Response>;
+export function handleChat(
+  request: Request,
+  env: SmartCartEnv,
+  createProviderFn?: (env: SmartCartEnv) => LlmProvider,
+): Promise<Response>;
 ```
 
 ---
@@ -163,16 +193,20 @@ reviews:
   poem: false
   auto_review: { enabled: true, drafts: false }
   path_instructions:
-    - path: "src/app/**"
+    - path: 'src/app/**'
       instructions: Angular 22 zoneless app. Prefer signals/computed, standalone components, inject(). Flag direct browser globals (window, localStorage) without isPlatformBrowser — this app is SSR.
-    - path: "src/server/**"
+    - path: 'src/server/**'
       instructions: Runs in a Cloudflare Worker. No Node-only APIs. Validate all request input. Never leak API keys or raw LLM errors to clients. Tool arguments from the LLM are untrusted.
-    - path: "**/*.spec.ts"
+    - path: '**/*.spec.ts'
       instructions: Vitest. Tests must be deterministic — no real network or Gemini calls; use fakes. Check edge cases and assertions are meaningful.
-    - path: "e2e/**"
+    - path: 'e2e/**'
       instructions: Playwright. Prefer getByTestId/getByRole, web-first assertions, no fixed timeouts. Mock provider only.
   pre_merge_checks:
-    title: { mode: warning, requirements: "Use Conventional Commits (feat:, fix:, test:, chore:, docs:, ci:)." }
+    title:
+      {
+        mode: warning,
+        requirements: 'Use Conventional Commits (feat:, fix:, test:, chore:, docs:, ci:).',
+      }
     custom_checks:
       - name: Tests for new logic
         mode: warning
@@ -184,7 +218,7 @@ reviews:
 code_generation:
   unit_tests:
     path_instructions:
-      - path: "src/**/*.ts"
+      - path: 'src/**/*.ts'
         instructions: Use Vitest globals (describe/it/expect, vi). Use TestBed for Angular services. Fake fetch/LLM clients; never call real APIs.
 chat:
   auto_reply: true

@@ -27,7 +27,7 @@ Here's what each section does:
 | `# yaml-language-server: $schema=…`       | VS Code autocompletes and validates the file against `schema.v2.json`                                                                                                                        |
 | `reviews.profile: assertive`              | More nitpicky than `chill`. Good for a workshop, and often for real projects                                                                                                                 |
 | `high_level_summary`, `sequence_diagrams` | A PR summary and a mermaid diagram of the changed flow. `poem: false` keeps the noise down                                                                                                   |
-| `auto_review`                             | Reviews every non-draft PR without being asked. By default this only covers PRs into the repo's **default branch**; see the note in step 3                                                   |
+| `auto_review`                             | Reviews every non-draft PR without being asked. `base_branches: [".*"]` extends it beyond the default branch to PRs into the `step-*` branches                                               |
 | `path_instructions`                       | The project knowledge a generic reviewer lacks: SSR-safety in `src/app/**`, Worker and secret rules in `src/server/**`, deterministic Vitest in `**/*.spec.ts`, Playwright rules in `e2e/**` |
 | `pre_merge_checks.title`                  | Warns when the PR title isn't Conventional Commits                                                                                                                                           |
 | `pre_merge_checks.custom_checks`          | **Tests for new logic**: warns when `src/` logic changes without a spec or e2e test                                                                                                          |
@@ -57,7 +57,7 @@ git push -u origin feat/bulk-discount
 
 Now open a PR **in your fork**: base `step-0-start` ← compare `feat/bulk-discount`. GitHub defaults to the upstream repo, so change the base repository to your own fork.
 
-> **Auto review and non-default branches.** CodeRabbit auto-reviews PRs into the default branch (`main`). For a PR into `step-0-start`, comment `@coderabbitai review` to start it. Alternatively, add `base_branches: [".*"]` under `reviews.auto_review`.
+> **Auto review and non-default branches.** CodeRabbit only auto-reviews PRs into the default branch (`main`) unless `reviews.auto_review.base_branches` says otherwise. Our config sets it to `".*"`, so PRs into `step-0-start` are reviewed too. If a review still doesn't start, comment `@coderabbitai review`.
 
 ### 4. Watch the review
 

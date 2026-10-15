@@ -12,7 +12,8 @@ Before you paste a prompt, open the file it targets so Copilot has the context. 
 Create .coderabbit.yaml in the repo root for CodeRabbit. Start the file with
 "# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json".
 Use language en-US and reviews.profile "assertive", with high_level_summary and
-sequence_diagrams on, poem off, and auto_review enabled but not for drafts.
+sequence_diagrams on, poem off, and auto_review enabled but not for drafts, with base_branches [".*"]
+so PRs into the step-* branches are reviewed too.
 Add reviews.path_instructions for:
 - src/app/** : Angular 22 zoneless app. Prefer signals/computed, standalone components
   and inject(). Flag window/document/localStorage used without isPlatformBrowser,
@@ -185,8 +186,8 @@ webServer command is `pnpm wrangler dev --port 8787 --var SMARTCART_PROVIDER:moc
 (the build already ran via `pnpm e2e`), with url http://localhost:8787,
 reuseExistingServer when not on CI, a 120s timeout and
 env WRANGLER_SEND_METRICS: 'false'. trace 'on-first-retry'.
-Also add e2e/tsconfig.json extending ../tsconfig.json with node types, including
-../playwright.config.ts.
+e2e/tsconfig.json already exists and type-checks e2e/**/*.ts and
+../playwright.config.ts, so don't create another tsconfig.
 ```
 
 ### 3.2 Hydration helper and shop spec

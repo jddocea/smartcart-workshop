@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": ["node"]
   },
+  "files": [],
   "include": ["**/*.ts", "../playwright.config.ts"]
 }
