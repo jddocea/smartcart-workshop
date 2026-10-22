@@ -230,11 +230,11 @@ Use web-first assertions and no fixed timeouts.
 Create .github/workflows/ci.yml named CI. Trigger it on pull_request, push to main
 and workflow_dispatch. Set concurrency group ci-${{ github.ref }} with
 cancel-in-progress, and permissions contents: read.
-Job quality (ubuntu-latest, 15 min): actions/checkout@v4, pnpm/action-setup@v4 (no
-version, it reads packageManager from package.json), actions/setup-node@v4 with
+Job quality (ubuntu-latest, 15 min): actions/checkout@v7, pnpm/action-setup@v6 (no
+version, it reads packageManager from package.json), actions/setup-node@v7 with
 node-version 24 and cache pnpm, then pnpm install --frozen-lockfile, pnpm lint,
 pnpm typecheck, pnpm test:coverage and pnpm build, then upload coverage/ with
-actions/upload-artifact@v4 if: always().
+actions/upload-artifact@v7 if: always().
 Job e2e (needs quality, 20 min): the same setup, then
 pnpm exec playwright install --with-deps chromium, then pnpm e2e with env CI: true.
 Upload playwright-report/ if: failure().
