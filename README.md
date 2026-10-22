@@ -2,7 +2,7 @@
 
 SmartCart is a small shop built with Angular 22 and rendered on the server in a Cloudflare Worker. It has an AI shopping assistant that streams its answers and can search the catalog and add items to your cart. The assistant uses Google Gemini when you give it an API key, and a deterministic mock provider when you don't, so everything runs and tests offline.
 
-This repository is the companion app for the hands-on workshop **AI-Powered Code Review, Testing & CI/CD with Angular**. The guide is in [`workshop/`](workshop/README.md).
+This repository is the companion app for the hands-on workshop **AI-Powered Code Review, Testing & CI/CD with Angular**. The guide is in [`workshop/`](workshop/README.md). To build the app yourself from an empty folder, see [`workshop/build-from-scratch.md`](workshop/build-from-scratch.md).
 
 ## Features
 
