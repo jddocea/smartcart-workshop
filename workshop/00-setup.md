@@ -19,10 +19,10 @@
    git checkout step-0-start
    ```
 
-3. **Install** the dependencies. `corepack enable` makes the pinned pnpm (10.33.4) available.
+3. **Install** pnpm 10 (skip if `pnpm -v` already prints 10.x), then the dependencies.
 
    ```bash
-   corepack enable
+   npm install -g pnpm@10.33.4
    pnpm install
    ```
 
@@ -95,7 +95,7 @@ These are the files to know:
 
 ## If stuck
 
-- `pnpm: command not found`: run `corepack enable`, or `npm i -g pnpm@10`.
+- `pnpm: command not found`: run `npm install -g pnpm@10.33.4`.
 - `step-0-start` doesn't exist: your fork only copied `main`. Add the original repo as a remote and fetch the branches from it:
 
   ```bash
