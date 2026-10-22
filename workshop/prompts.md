@@ -4,6 +4,8 @@ These are the copy-paste prompts for GitHub Copilot Chat (agent mode works best)
 
 Before you paste a prompt, open the file it targets so Copilot has the context. Always read and run what it gives you back.
 
+The prompts that build the app itself (catalog, cart, tools, mock and Gemini providers, the SSE endpoint, the UI) are in [build-from-scratch.md](build-from-scratch.md).
+
 ## Module 01: CodeRabbit
 
 ### 1.1 Draft `.coderabbit.yaml`
