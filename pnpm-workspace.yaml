@@ -5,3 +5,9 @@
 allowBuilds:
   esbuild: true
   workerd: true
+  # Not needed: prebuilt binaries ship in the packages, and pnpm 10 never ran these.
+  '@google/genai': false
+  '@parcel/watcher': false
+  lmdb: false
+  msgpackr-extract: false
+  protobufjs: false

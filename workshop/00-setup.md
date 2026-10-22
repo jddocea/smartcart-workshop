@@ -19,10 +19,10 @@
    git checkout step-0-start
    ```
 
-3. **Install** pnpm 10 (skip if `pnpm -v` already prints 10.x), then the dependencies.
+3. **Install** pnpm 12 (skip if `pnpm -v` already prints 12.x), then the dependencies.
 
    ```bash
-   npm install -g pnpm@10.33.4
+   npm install -g pnpm@12.15.0
    pnpm install
    ```
 
@@ -95,7 +95,7 @@ These are the files to know:
 
 ## If stuck
 
-- `pnpm: command not found`: run `npm install -g pnpm@10.33.4`.
+- `pnpm: command not found`: run `npm install -g pnpm@12.15.0`.
 - `step-0-start` doesn't exist: your fork only copied `main`. Add the original repo as a remote and fetch the branches from it:
 
   ```bash
