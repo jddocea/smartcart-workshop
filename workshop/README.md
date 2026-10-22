@@ -2,6 +2,8 @@
 
 A 60-minute hands-on workshop.
 
+> 📖 **Follow along online:** https://smartcart-workshop-guide.santosh-yadav198613.workers.dev
+
 ## Abstract
 
 AI writes a lot of our code now. The real question is how fast you can trust it. In this workshop you take **SmartCart**, an Angular 22 SSR shop with an AI shopping assistant running on Cloudflare Workers, and wrap it in a delivery pipeline where AI helps at every step:

@@ -2,7 +2,7 @@
 
 SmartCart is a small shop built with Angular 22 and rendered on the server in a Cloudflare Worker. It has an AI shopping assistant that streams its answers and can search the catalog and add items to your cart. The assistant uses Google Gemini when you give it an API key, and a deterministic mock provider when you don't, so everything runs and tests offline.
 
-This repository is the companion app for the hands-on workshop **AI-Powered Code Review, Testing & CI/CD with Angular**. The guide is in [`workshop/`](workshop/README.md). To build the app yourself from an empty folder, see [`workshop/build-from-scratch.md`](workshop/build-from-scratch.md).
+This repository is the companion app for the hands-on workshop **AI-Powered Code Review, Testing & CI/CD with Angular**. Follow the guide online at **[smartcart-workshop-guide.santosh-yadav198613.workers.dev](https://smartcart-workshop-guide.santosh-yadav198613.workers.dev)**. Its source is in [`workshop/`](workshop/README.md). To build the app yourself from an empty folder, see [`workshop/build-from-scratch.md`](workshop/build-from-scratch.md).
 
 ## Features
 
@@ -103,3 +103,15 @@ Deploys run through **Cloudflare Workers Builds**, not GitHub Actions:
 4. Pushes to `main` deploy to `smartcart-workshop.<subdomain>.workers.dev`. Turn on preview builds to get a URL for every PR.
 
 CI (`.github/workflows/ci.yml`) gates `main` with the `quality` job (lint, typecheck, unit tests with coverage, build) and the `e2e` job. See [workshop/05-deploy.md](workshop/05-deploy.md) for the full walkthrough.
+
+## Workshop guide site
+
+[`site/`](site/) is an [Astro Starlight](https://starlight.astro.build) site that publishes `workshop/*.md` (everything except the facilitator notes) at https://smartcart-workshop-guide.santosh-yadav198613.workers.dev. It adds search, copy buttons and progress tracking that is saved in the browser. Edit the Markdown in `workshop/`. The site regenerates its pages from there on every build.
+
+```sh
+pnpm --filter smartcart-workshop-guide dev     # local preview on http://localhost:4321
+pnpm --filter smartcart-workshop-guide build   # sync + build + link check
+pnpm --filter smartcart-workshop-guide e2e     # Playwright smoke tests
+```
+
+`.github/workflows/site.yml` builds and tests the site on PRs. On pushes to `main` it deploys the site to the `smartcart-workshop-guide` Worker, once the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets are set.

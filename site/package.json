@@ -1,0 +1,27 @@
+{
+	"name": "smartcart-workshop-guide",
+	"private": true,
+	"type": "module",
+	"description": "Hosted, followable version of the SmartCart workshop guide (Astro Starlight).",
+	"scripts": {
+		"sync": "node scripts/sync-content.mjs",
+		"dev": "pnpm sync && astro dev",
+		"build": "pnpm sync && astro build",
+		"preview": "astro preview",
+		"test": "vitest run scripts",
+		"e2e": "playwright test",
+		"deploy": "pnpm build && wrangler deploy"
+	},
+	"dependencies": {
+		"@astrojs/starlight": "^0.42.6",
+		"astro": "^7.4.2",
+		"mermaid": "^12.2.0",
+		"sharp": "^0.35.3"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.64.1",
+		"starlight-links-validator": "^0.27.0",
+		"vitest": "^5.0.0",
+		"wrangler": "^4.151.0"
+	}
+}

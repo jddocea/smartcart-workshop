@@ -1,0 +1,24 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<div class="sc-progress" data-sc-progress>
+	<button type="button" class="sc-done" data-sc-done aria-pressed="false">Mark step complete</button>
+	<button type="button" class="sc-reset" data-sc-reset>Reset all progress</button>
+</div>
+<Default><slot /></Default>
+
+<script>
+	import { initProgress } from '../scripts/progress';
+	initProgress();
+</script>
+
+<script>
+	import mermaid from 'mermaid';
+	const diagrams = document.querySelectorAll<HTMLElement>('pre.mermaid');
+	if (diagrams.length) {
+		const dark = document.documentElement.dataset.theme === 'dark';
+		mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default' });
+		await mermaid.run({ nodes: diagrams });
+	}
+</script>

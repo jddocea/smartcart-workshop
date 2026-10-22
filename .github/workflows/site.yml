@@ -1,0 +1,108 @@
+name: Guide site
+
+# Builds, tests and deploys the hosted workshop guide (site/), which is
+# generated from the Markdown in workshop/.
+on:
+  pull_request:
+    paths: ['site/**', 'workshop/**', '.github/workflows/site.yml']
+  push:
+    branches: [main]
+    paths: ['site/**', 'workshop/**', '.github/workflows/site.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests (content sync)
+        run: pnpm --filter smartcart-workshop-guide test
+
+      - name: Build (includes link validation)
+        run: pnpm --filter smartcart-workshop-guide build
+
+      - name: Install Playwright browser
+        run: pnpm --filter smartcart-workshop-guide exec playwright install --with-deps chromium
+
+      - name: Smoke tests
+        run: pnpm --filter smartcart-workshop-guide e2e
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: guide-dist
+          path: site/dist
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: guide-playwright-report
+          path: site/test-results
+          retention-days: 7
+
+  deploy:
+    name: deploy
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check Cloudflare secrets
+        id: secrets
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::Skipping deploy: add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets to enable it."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v7
+        if: steps.secrets.outputs.ok == 'true'
+
+      - uses: pnpm/action-setup@v6
+        if: steps.secrets.outputs.ok == 'true'
+
+      - uses: actions/setup-node@v7
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        if: steps.secrets.outputs.ok == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v8
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          name: guide-dist
+          path: site/dist
+
+      - name: Deploy to Cloudflare Workers
+        if: steps.secrets.outputs.ok == 'true'
+        working-directory: site
+        run: pnpm exec wrangler deploy

@@ -1,3 +1,7 @@
+packages:
+  - '.'
+  - site
+
 # Pre-approve build scripts for the packages C3 itself installs that need
 # them: `workerd` downloads the platform binary and `esbuild` downloads/
 # builds native bindings. Without these, pnpm 11+ aborts the install with
@@ -11,3 +15,11 @@ allowBuilds:
   lmdb: false
   msgpackr-extract: false
   protobufjs: false
+
+# Added by pnpm 12 for guide-site (site/) packages published more recently than
+# its default minimum release age. Safe to drop once they are older.
+minimumReleaseAgeExclude:
+  - '@astrojs/markdown-satteri@0.4.5'
+  - '@astrojs/prism@4.1.1'
+  - '@astrojs/telemetry@3.4.1'
+  - astro@7.4.2

@@ -7,7 +7,7 @@
 /bazel-out
 
 # Node
-/node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -55,3 +55,9 @@ playwright-report/
 test-results/
 blob-report/
 .pnpm-store/
+
+# Workshop guide site (site/): generated content and build output
+site/src/content/docs/
+site/dist/
+site/.astro/
+site/.wrangler/
