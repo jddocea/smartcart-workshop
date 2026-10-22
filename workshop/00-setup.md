@@ -6,6 +6,8 @@
 | **Time box**        | 5 minutes (0–5)                                                   |
 | **Starting branch** | `step-0-start`                                                    |
 
+> Want to build the app yourself first? Follow [build-from-scratch.md](build-from-scratch.md) before the session. It covers the scaffold commands and the prompts for every feature. In the live session everyone starts from the ready-made app below.
+
 ## Steps
 
 1. **Fork** [`santoshyadavdev/smartcart-workshop`](https://github.com/santoshyadavdev/smartcart-workshop). On the "Create a new fork" page, **untick "Copy the `main` branch only"**. You need every `step-*` branch.
