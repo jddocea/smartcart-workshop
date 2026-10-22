@@ -23,7 +23,7 @@ This repository is the companion app for the hands-on workshop **AI-Powered Code
 
 ## Quick start
 
-You need Node 24 and pnpm 10. Run `corepack enable` to pick up `pnpm@10.33.4` from `packageManager`.
+You need Node 24 and pnpm 10. Install pnpm with `npm install -g pnpm@10.33.4`.
 
 ```bash
 pnpm install
