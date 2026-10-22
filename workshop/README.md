@@ -37,7 +37,8 @@ The repository is [`santoshyadavdev/smartcart-workshop`](https://github.com/sant
 
 The other files in this folder:
 
-- [prompts.md](prompts.md) has every copy-paste prompt.
+- [build-from-scratch.md](build-from-scratch.md) is self-paced pre-work. It has the commands to scaffold the app and the Copilot prompts to build every feature yourself, ending at `step-0-start`.
+- [prompts.md](prompts.md) has every copy-paste prompt for the live modules.
 - [facilitator-notes.md](facilitator-notes.md) is for whoever runs the session.
 
 ## Checkpoint branches
