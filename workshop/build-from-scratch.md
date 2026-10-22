@@ -53,12 +53,28 @@ The prompts ask for tests along the way. They are kept small on purpose; the wor
 Cloudflare's [`create-cloudflare`](https://developers.cloudflare.com/workers/framework-guides/web-apps/more-web-frameworks/angular/) tool runs `ng new` with SSR and then wires the result to Workers: it adds `wrangler.jsonc`, a Workers-compatible `src/server.ts`, and the `preview` and `deploy` scripts.
 
 ```bash
-npm install -g pnpm@10.33.4   # skip if `pnpm -v` already prints 10.x
-pnpm create cloudflare@latest smartcart-workshop --framework=angular --platform=workers --no-deploy
+npm install -g pnpm@12.15.0   # skip if `pnpm -v` already prints 12.x
+pnpm_config_strict_dep_builds=false pnpm create cloudflare@latest smartcart-workshop --framework=angular --platform=workers --no-deploy
 cd smartcart-workshop
 ```
 
 If you leave out the flags, the tool asks the same questions interactively. Choose **Yes** for git and **No** for deploy.
+
+> **Why `pnpm_config_strict_dep_builds=false`?** Since pnpm 11, an install fails with `ERR_PNPM_IGNORED_BUILDS` if any dependency has an install script you haven't approved or denied. The project C3 generates approves only `esbuild` and `workerd`, so the Angular install step fails without this. The variable only applies to this one command. On Windows PowerShell, run `$env:pnpm_config_strict_dep_builds="false"` first, then the `pnpm create` line on its own.
+
+Now record a decision for the remaining install scripts, so later installs pass the same check. Open `pnpm-workspace.yaml` and extend `allowBuilds`:
+
+```yaml
+allowBuilds:
+  esbuild: true
+  workerd: true
+  # Not needed: these ship prebuilt binaries or only print a message.
+  '@google/genai': false
+  '@parcel/watcher': false
+  lmdb: false
+  msgpackr-extract: false
+  protobufjs: false
+```
 
 ### 1.2 Check the scaffold runs
 
@@ -105,6 +121,7 @@ coverage/
 playwright-report/
 test-results/
 .wrangler/
+.pnpm-store/
 ```
 
 Create `.dev.vars.example`:
