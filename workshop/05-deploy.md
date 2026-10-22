@@ -44,7 +44,7 @@ GitHub Actions **gates** and Cloudflare **deploys**. Cloudflare builds every pus
 
    Don't use `pnpm deploy` as the deploy command. `pnpm deploy` is a pnpm built-in that does something else. The repo's `deploy` script (`pnpm run deploy` = `pnpm run build && wrangler deploy`) also rebuilds, which is what you use for a manual deploy from your laptop.
 
-   The build image ships its own default pnpm version. If the install step complains about the pnpm version or the lockfile, add the build variable `PNPM_VERSION` = `10.33.4` under **Build variables and secrets**.
+   The build image ships its own default pnpm version. If the install step complains about the pnpm version or the lockfile, add the build variable `PNPM_VERSION` = `12.15.0` under **Build variables and secrets**.
 
    Select **Save and Deploy**. Watch the log, then open the `*.workers.dev` URL.
 
@@ -70,7 +70,7 @@ A live `*.workers.dev` URL serving SmartCart. Every merged PR redeploys it, and 
 ## If stuck
 
 - **Build fails with a name mismatch.** Rename the Worker in the dashboard to `smartcart-workshop`, or change `name` in `wrangler.jsonc` to match.
-- **`pnpm: not found` or a lockfile error.** Set `PNPM_VERSION=10.33.4` as a build variable.
+- **`pnpm: not found` or a lockfile error.** Set `PNPM_VERSION=12.15.0` as a build variable.
 - **Every page returns 400 `Header "host" … is not allowed`.** Angular SSR only renders for hosts listed in `allowedHosts` in `src/server.ts`. `*.workers.dev` (including preview URLs) is already there; add your custom domain if you attach one.
 - **The assistant shows "demo mode" in production.** The `GEMINI_API_KEY` secret is missing from the production environment, or you added it as a build variable.
 - **Manual fallback from your laptop:** `pnpm wrangler login`, then `pnpm run deploy`.
