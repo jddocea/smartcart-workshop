@@ -53,7 +53,7 @@ The prompts ask for tests along the way. They are kept small on purpose; the wor
 Cloudflare's [`create-cloudflare`](https://developers.cloudflare.com/workers/framework-guides/web-apps/more-web-frameworks/angular/) tool runs `ng new` with SSR and then wires the result to Workers: it adds `wrangler.jsonc`, a Workers-compatible `src/server.ts`, and the `preview` and `deploy` scripts.
 
 ```bash
-corepack enable
+npm install -g pnpm@10.33.4   # skip if `pnpm -v` already prints 10.x
 pnpm create cloudflare@latest smartcart-workshop --framework=angular --platform=workers --no-deploy
 cd smartcart-workshop
 ```
