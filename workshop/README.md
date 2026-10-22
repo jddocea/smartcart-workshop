@@ -15,7 +15,7 @@ You leave with a workflow you can reuse on your own projects.
 
 ## Prerequisites
 
-- Node 24 and pnpm 10. Install pnpm with `npm install -g pnpm@10.33.4`.
+- Node 24 and pnpm 12. Install pnpm with `npm install -g pnpm@12.15.0`.
 - A GitHub account.
 - VS Code with GitHub Copilot. The free tier is fine.
 - The [CodeRabbit GitHub app](https://github.com/apps/coderabbitai). It's free for public repos.
