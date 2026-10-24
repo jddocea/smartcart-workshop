@@ -77,6 +77,35 @@ src/shared/products.ts via findProduct.
 @coderabbitai Why is reading localStorage in a field initializer a problem here? Which routes are affected, given app.routes.server.ts renders /cart on the client only?
 ```
 
+## Module 01b: Bug hunt
+
+### 1b.1 Fix from a CodeRabbit "Prompt for AI Agents"
+
+Paste the prompt you copied from the review in place of the placeholder. Use Copilot Chat in agent mode.
+
+```text
+CodeRabbit reviewed this branch and gave the instructions below. Verify each
+finding against the current code before changing anything; if one is wrong,
+say so and skip it. Make the smallest fix for each real finding, keep the
+existing tests passing, and add or fix Vitest specs (globals, no imports from
+'vitest') so the bug can't come back. Then run pnpm lint, pnpm typecheck and
+pnpm test.
+
+<paste the Prompt for AI Agents here>
+```
+
+### 1b.2 Ask CodeRabbit for the fix in the thread
+
+```text
+@coderabbitai Can you show the exact change that fixes this, as a suggestion I can commit? Keep it consistent with the rest of the file, and tell me which test would catch it.
+```
+
+### 1b.3 Ask what else is wrong
+
+```text
+@coderabbitai Besides what you've flagged, does this PR have any other security, accessibility, resource-cleanup or test-quality problems? List them with file and line.
+```
+
 ## Module 02: Unit tests
 
 All of these assume Vitest globals (`describe`, `it`, `expect`, `vi`) through `ng test` with the `@angular/build:unit-test` builder, in jsdom. Tell Copilot not to import from `vitest`.
