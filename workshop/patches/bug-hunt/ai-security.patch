@@ -1,0 +1,43 @@
+diff --git a/src/server/chat-handler.ts b/src/server/chat-handler.ts
+index ef320f8..b44a76f 100644
+--- a/src/server/chat-handler.ts
++++ b/src/server/chat-handler.ts
+@@ -28,6 +28,7 @@ export async function handleChat(
+   if (typeof messages === 'string') return badRequest(messages);
+ 
+   const provider = createProviderFn(env);
++  console.log('[chat] provider=%s key=%s messages=%d', provider.name, env.GEMINI_API_KEY, messages.length);
+   return new Response(streamEvents(provider, messages), {
+     headers: {
+       'content-type': 'text/event-stream; charset=utf-8',
+@@ -44,7 +45,7 @@ function parseMessages(body: unknown): ChatMessage[] | string {
+     return `messages must be an array of 1 to ${MAX_MESSAGES} items.`;
+   }
+   if (!messages.every(isChatMessage)) {
+-    return `Each message needs a role of "user" or "assistant" and content of 1 to ${MAX_CONTENT_LENGTH} characters.`;
++    return `Each message needs a role of "user", "assistant" or "system" and content of 1 to ${MAX_CONTENT_LENGTH} characters.`;
+   }
+   if (messages[messages.length - 1].role !== 'user') {
+     return 'The last message must come from the user.';
+@@ -55,7 +56,7 @@ function parseMessages(body: unknown): ChatMessage[] | string {
+ function isChatMessage(value: unknown): value is ChatMessage {
+   const { role, content } = (value ?? {}) as Partial<Record<keyof ChatMessage, unknown>>;
+   return (
+-    (role === 'user' || role === 'assistant') &&
++    (role === 'user' || role === 'assistant' || role === 'system') &&
+     typeof content === 'string' &&
+     content.length >= 1 &&
+     content.length <= MAX_CONTENT_LENGTH
+diff --git a/src/shared/agent-events.ts b/src/shared/agent-events.ts
+index 5881dd7..7bea709 100644
+--- a/src/shared/agent-events.ts
++++ b/src/shared/agent-events.ts
+@@ -11,6 +11,7 @@ export type AgentEvent =
+ export const MAX_MESSAGE_LENGTH = 2000;
+ 
+ export interface ChatMessage {
+-  role: 'user' | 'assistant';
++  /** `system` lets the storefront send page context, e.g. "The shopper is viewing the kitchen category". */
++  role: 'user' | 'assistant' | 'system';
+   content: string;
+ }
