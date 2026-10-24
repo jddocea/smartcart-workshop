@@ -59,3 +59,15 @@ Use `origin/<branch>` as the source for path checkouts. A bare branch name only 
 - `workshop/patches/bulk-discount.patch` touches only `src/app/cart/cart.store.ts`, `src/app/cart/cart.page.ts` and `src/app/layout/header.ts`. It contains no specs, so it applies on every checkpoint branch.
 - On `main`, the existing unit tests **still pass** with the patch applied. jsdom has `localStorage`, and no spec builds a cart with three lines. `pnpm e2e` **fails**, because SSR of `/` returns 500. This is a good talking point: unit tests alone miss runtime-specific bugs.
 - The reference fix: apply the discount per line when `line.quantity >= BULK_MIN_QUANTITY`, and read `localStorage` only when `isPlatformBrowser(inject(PLATFORM_ID))` is true. `CartStore` already shows the pattern.
+
+## Notes on the bug hunt (01b, optional)
+
+- It adds about 15 minutes. Run it straight after module 01, while CodeRabbit is fresh. Assign patches round-robin down the rows (`ai-security`, `streaming-leak`, `a11y`, `fake-tests`) so neighbours have different patches to compare.
+- Every patch in `workshop/patches/bug-hunt/` passes `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` and `pnpm e2e` on `main`. They apply on `step-1-coderabbit` and every later branch, but not on `step-0-start`, which has no `.coderabbit.yaml` yet.
+- The answer key is at the end of `01b-bug-hunt.md`. The findings to expect:
+  - `ai-security`: client-sent `system` role (prompt injection) and `GEMINI_API_KEY` in `console.log`. gitleaks won't flag this, because no secret value is committed.
+  - `streaming-leak`: `stop()` doesn't abort the fetch, so actions still reach the cart; overlapping streams; an uncleared `setInterval` that also runs during SSR.
+  - `a11y`: icon-only buttons with no accessible name, colour-only toggle state with no `aria-pressed`, and `outline: none` on focus.
+  - `fake-tests`: float rounding, an unclamped discount, and tests that assert against a `vi.fn()` stand-in, loose matchers and `it.skip`.
+- Reviews vary between runs. If a bug isn't flagged, use it as a talking point: reply with a hint, or run `@coderabbitai full review`, and discuss why human review still matters.
+- `@coderabbitai fix comments` and Autofix use Pro features, which are free on public repos. If they're unavailable, the "Prompt for AI Agents" method with Copilot always works.
