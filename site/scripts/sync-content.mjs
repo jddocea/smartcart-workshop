@@ -10,6 +10,7 @@ export const PAGES = [
 	{ file: 'build-from-scratch.md', slug: 'build-from-scratch' },
 	{ file: '00-setup.md', slug: '00-setup' },
 	{ file: '01-coderabbit.md', slug: '01-coderabbit' },
+	{ file: '01b-bug-hunt.md', slug: '01b-bug-hunt' },
 	{ file: '02-unit-tests.md', slug: '02-unit-tests' },
 	{ file: '03-e2e.md', slug: '03-e2e' },
 	{ file: '04-ci.md', slug: '04-ci' },

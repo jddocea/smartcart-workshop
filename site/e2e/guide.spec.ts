@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const STEPS = ['00 · Setup', '01 · AI code review', '02 · AI-assisted unit tests', '03 · E2E tests', '04 · CI', '05 · Deploy'];
+const STEPS = ['00 · Setup', '01 · AI code review', '01b · Bug hunt', '02 · AI-assisted unit tests', '03 · E2E tests', '04 · CI', '05 · Deploy'];
 
 test('home page lists every workshop step in the sidebar', async ({ page }) => {
 	await page.goto('/');

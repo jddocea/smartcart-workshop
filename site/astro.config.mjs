@@ -19,7 +19,7 @@ export default defineConfig({
 				{ label: 'Pre-work: build from scratch', slug: 'build-from-scratch' },
 				{
 					label: 'Workshop',
-					items: ['00-setup', '01-coderabbit', '02-unit-tests', '03-e2e', '04-ci', '05-deploy'],
+					items: ['00-setup', '01-coderabbit', '01b-bug-hunt', '02-unit-tests', '03-e2e', '04-ci', '05-deploy'],
 				},
 				{ label: 'Prompts', slug: 'prompts' },
 			],
