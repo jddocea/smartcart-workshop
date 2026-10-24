@@ -107,3 +107,7 @@ CodeRabbit runs an **incremental review**. It only looks at the new commits and 
 - **No review appears.** Check that the app is installed on _your fork_ (GitHub → Settings → Applications → CodeRabbit → Repository access). Then comment `@coderabbitai review`.
 - **`git apply` fails.** Make sure you branched from `step-0-start`, or a later step, with a clean tree: `git status`. Use `git apply --check workshop/patches/bulk-discount.patch` to see the conflict.
 - **Fall back.** Run `git checkout step-1-coderabbit`. It has the config and none of the bug fixes, so you can start module 02 from there.
+
+## Next
+
+Got time? [01b Bug hunt](01b-bug-hunt.md) has four more PRs with hidden bugs that pass every check, and shows how to fix them with CodeRabbit's suggestions, AI-agent prompts and `@coderabbitai fix comments`. Otherwise go on to [02 Unit tests](02-unit-tests.md).

@@ -2,6 +2,8 @@
 
 A 60-minute hands-on workshop.
 
+> 📖 **Follow along online:** https://smartcart-workshop-guide.santosh-yadav198613.workers.dev
+
 ## Abstract
 
 AI writes a lot of our code now. The real question is how fast you can trust it. In this workshop you take **SmartCart**, an Angular 22 SSR shop with an AI shopping assistant running on Cloudflare Workers, and wrap it in a delivery pipeline where AI helps at every step:
@@ -35,6 +37,8 @@ The repository is [`santoshyadavdev/smartcart-workshop`](https://github.com/sant
 | 42–52 | [04 CI](04-ci.md)                             | Add a GitHub Actions quality gate and branch protection           |
 | 52–60 | [05 Deploy](05-deploy.md)                     | Ship with Cloudflare Workers Builds, then wrap up                 |
 
+**Optional, about +15 minutes:** run [01b Bug hunt](01b-bug-hunt.md) after module 01. Attendees open PRs with hidden bugs that pass lint and tests, then fix them with CodeRabbit. The workshop then takes about 75 minutes.
+
 The other files in this folder:
 
 - [build-from-scratch.md](build-from-scratch.md) is self-paced pre-work. It has the commands to scaffold the app and the Copilot prompts to build every feature yourself, ending at `step-0-start`.
@@ -54,7 +58,7 @@ Each module starts on a branch. If you fall behind, check out the next branch an
 | `step-4-ci`         | Adds `.github/workflows/ci.yml`                                                                                                                                             | 05              |
 | `main`              | `step-4-ci` plus the docs                                                                                                                                                   | Reference       |
 
-The `workshop/` folder is on every branch, including the patch used in module 01.
+The `workshop/` folder is on every branch, including the patch used in module 01 and the bug-hunt patches in `workshop/patches/bug-hunt/` (apply those on `step-1-coderabbit` or later).
 
 ## The repeatable workflow
 
